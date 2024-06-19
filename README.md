@@ -1,1 +1,2 @@
-# Colon-cancer-Image-classification
+
+<embed src="/Report.pdf" type="application/pdf">

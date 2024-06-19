@@ -403,10 +403,13 @@ The objective is to use *Transfer Learning*, therefore to exploit a convolutiona
 
 ## Feature extractor
 
-In this work VGG16 [1] was used as a feature extractor. VGG16 is a convolutional neural network pre-trained on the *ImageNet* dataset, which contains numerous images divided into 1000 classes. Since the goal is to use the network only as a feature extractor, the pre-trained VGG16 model was loaded, excluding the last fully-connected layers. In this way, the network extracts for each image a feature tensor of size $7 \times 7 \times 512$. The features extracted from VGG16 are very generic and can be used for various computer vision tasks, making the model versatile and robust.
+In this work VGG16 [1] was used as a feature extractor. VGG16 is a convolutional neural network pre-trained on the *ImageNet* dataset, which contains numerous images divided into 1000 classes. Since the goal is to use the network only as a feature extractor, the pre-trained VGG16 model was loaded, excluding the last fully-connected layers. In this way, the network extracts for each image a feature tensor of size $` 7 \times 7 \times 512 `$. The features extracted from VGG16 are very generic and can be used for various computer vision tasks, making the model versatile and robust.
 
 ![VGG16 architecture](images/vgg16.png)
+
+<p align="center">
 *VGG16 architecture.*
+</p>
 
 For each image in the dataset, it is passed through the VGG16 network up to the last convolutional layer, thus obtaining a tensor of size $7 \times 7 \times 512$. This tensor represents the **features** extracted from the image.
 
@@ -454,7 +457,7 @@ The last approach used considers the use of a CNN as an image classifier and not
 
 The basic model used is VGG16 which is used as a starting point. Its weights are **frozen** to avoid updating while training the new model. The following layers were then added to the basic model:
 
-- **Global Average Pooling**: A `GlobalAveragePooling2D` layer is added to the base model. This layer averages over each filter $ 7 \times 7 $, reducing it to a single value. This reduces the spatial size of the features from $ 7 \times 7 \times 512 $ to $ 1 \times 512 $.
+- **Global Average Pooling**: A `GlobalAveragePooling2D` layer is added to the base model. This layer averages over each filter $` 7 \times 7 `$, reducing it to a single value. This reduces the spatial size of the features from $` 7 \times 7 \times 512 $ to $ 1 \times 512 `$.
 
 - **Dense layer**: A fully-connected layer with 256 neurons and ReLU activation function.
 
@@ -463,14 +466,13 @@ The basic model used is VGG16 which is used as a starting point. Its weights are
 - **Dense layer**: An additional fully-connected layer with 128 neurons and ReLU activation function.
 
 - **Output**: Finally, a final output layer with a number of neurons equal to the number of output classes. This layer uses the softmax activation function, which is ideal for multi-class classification tasks. In this case, only two output neurons were used, since the classification is performed on two classes.
-<figure style="text-align:center;">
-<p algin="enter">
-    <img src="images/model_arch.png" id="fig:model_arch"
-    alt="CNN model architecture." />
-    
-*CNN model architecture.*
+<p align="center">
+<img src="images/model_arch.png" id="fig:model_arch" alt="CNN model architecture." />  
 </p>
-</figure>
+
+**CNN model architecture.**
+
+
 
 ## Data augmentation
 

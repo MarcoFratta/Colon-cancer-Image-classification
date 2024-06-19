@@ -62,15 +62,17 @@ In Figure [1](#fig:color_hist_200), you can compare the color histograms of the 
 To compare images based on color histograms, two metrics were used:
 
 - **Correlation**: Quantifies the similarity between two histograms. Values close to 1 indicate high similarity, while values close to 0 indicate little or no similarity. It is calculated as:
+
   $$ d(H_1, H_2) = \frac{\sum_I (H_1(I) - \overline{H}_1)(H_2(I) - \overline{H}_2)}{\sqrt{\sum_I (H_1(I) - \overline{H}_1)^2 \sum_I (H_2(I) - \overline{H}_2)^2}} $$
 
 - **Intersection (Similarity)**: Measures the common area of the histograms, quantifying the degree of overlap between them. It is calculated as:
+
   $$ d(H_1, H_2) = \sum_I \min(H_1(I), H_2(I)) $$
 
 In Table [1](#tab:color_histogram_metrics), you can see the correlation and intersection values calculated between the histograms of the two classes using 200 bins on 500 images per class.
 
 <div id="tab:color_histogram_metrics">
-<center>
+<p align="center">
 
 | Channel | Correlation | Intersection |
 |---------|-------------|--------------|
@@ -79,7 +81,7 @@ In Table [1](#tab:color_histogram_metrics), you can see the correlation and inte
 | Green   | 0.9182      | 0.8828       |
 
 Correlation and intersection values calculated between the histograms of the two classes using 200 bins on 500 images per class.
-</center>
+</p>
 </div>
 
 ## Color Moments
@@ -89,13 +91,19 @@ Correlation and intersection values calculated between the histograms of the two
 Three color moments were used, calculated globally across the entire image:
 
 - **Mean**: Average color in the image.
-  Calculated as: $$ \frac{1}{N} \sum_{i=1}^{N} x_i $$
+  Calculated as:
+  
+   $$ \frac{1}{N} \sum_{i=1}^{N} x_i $$
 
 - **Standard deviation**: Square root of the variance of the color distribution.
-  Calculated as: $$ \sqrt{\frac{1}{N} \sum_{i=1}^{N} (x_i - \text{mean})^2} $$
+  Calculated as: 
+  
+  $$ \sqrt{\frac{1}{N} \sum_{i=1}^{N} (x_i - \text{mean})^2} $$
 
 - **Skewness**: Measures the skewness of the color distribution.
-  Calculated as: $$ \sqrt[3]{\frac{1}{N} \sum_{i=1}^{N} (x_i - \text{mean})^3} $$
+  Calculated as:
+  
+   $$ \sqrt[3]{\frac{1}{N} \sum_{i=1}^{N} (x_i - \text{mean})^3} $$
 
 Mean, standard deviation, and skewness were calculated for all images and then averaged across images within each class. The color moments of each class were compared using the Euclidean distance. The results are shown in Table [2](#tab:color_moments_metrics).
 
@@ -152,19 +160,29 @@ GLCMs are two-dimensional histograms that describe the co-occurrences of pairs o
 This matrix captures the spatial distribution of pixel intensities, reflecting the texture structure. From the GLCM, various features were extracted to describe the texture of the image:
 
 - **Energy**: Represents the sum of the squares of the GLCM values, indicating the presence of repetitive patterns in the image.
-  Calculated as: $$ \sqrt{\sum_{i,j} M[i,j]^2} $$
+  Calculated as: 
+  
+  $$ \sqrt{\sum_{i,j} M[i,j]^2} $$
 
 - **Entropy**: Measures the complexity of the texture; higher values indicate a more disordered texture.
-  Calculated as: $$ -\sum_{i,j} M[i,j] \log(M[i,j]) $$
+  Calculated as:
+  
+   $$ -\sum_{i,j} M[i,j] \log(M[i,j]) $$
 
 - **Contrast**: Measures the difference in intensity between a pixel and its neighbors, reflecting local variation in intensity.
-  Calculated as: $$ \sum_{i,j} (i - j)^2 \cdot M[i,j] $$
+  Calculated as:
+  
+   $$ \sum_{i,j} (i - j)^2 \cdot M[i,j] $$
 
 - **Homogeneity**: Evaluates the uniformity of the texture; higher values indicate a more uniform texture.
-  Calculated as: $$ \sum_{i,j} \frac{M[i,j]}{1 + |i - j|} $$
+  Calculated as:
+  
+   $$ \sum_{i,j} \frac{M[i,j]}{1 + |i - j|} $$
 
 - **Dissimilarity**: Measures the absolute difference in intensity between pixels; higher values indicate greater intensity variation.
-  Calculated as: $$ \sum_{i,j} |i - j| \cdot M[i,j] $$
+  Calculated as:
+  
+   $$ \sum_{i,j} |i - j| \cdot M[i,j] $$
 
 ### Classification
 
@@ -190,11 +208,11 @@ Evaluation metrics of the SVM classifier trained on GLCM features, calculated on
 </div>
 
 <figure>
-<center>
+<p align="center">
     <img src="images/glcm_full_con_matrix.png" id="fig:glcm_full_cm" alt="Confusion matrix of the values predicted by the SVM classifier trained on GLCM features computed over the entire image." width=75%  />
     
 <figcaption aria-hidden="true">Confusion matrix of the values predicted by the SVM classifier trained on GLCM features computed over the entire image.</figcaption>
-</center>
+</p>
 </figure>
 
 The confusion matrix shown in Figure [4](#fig:glcm_full_cm) reveals that the classifier makes approximately twice as many errors in classifying non-benign images compared to benign ones. Specifically, on the test set, 92% of the benign images were classified correctly, while only 84% of the non-benign ones were classified correctly.
@@ -214,86 +232,81 @@ The detection algorithm is divided into the following steps:
 
 1. **Image preprocessing**: The preprocessing steps defined previously are performed. However, this time the image is resized before preprocessing.
 
-    <div style="text-align: center;">
-        <img src="images/step1.png" alt="Step 1" width="25%">
-    </div>
+
+<p align="center">
+<img src="images/step1.png" alt="Step 1" width="25%">
+</p>
 
 2. **Image binarization**: A binary threshold is applied to the preprocessed image using a threshold value. Pixels with values above the threshold are set to 255 (white), while those with values below are set to 0 (black).
 
-    <div style="text-align: center;">
-        <img src="images/step2.png" alt="Step 2" width="25%">
-    </div>
+<p align="center">
+<img src="images/step2.png" alt="Step 2" width="25%">
+</p>
 
 3. **Morphological Erosion**: An initial morphological erosion is applied to the binarized image. This step aims to separate the inner part of elliptical structures from their edges.
 
-    <div style="text-align: center;">
-        <img src="images/step3.jpg" alt="Step 3" width="25%">
-    </div>
+<p align="center">
+<img src="images/step3.jpg" alt="Step 3" width="25%">
+</p>
 
 4. **Handling specific images**: Two parameters are used to identify highly zoomed images and images where the edges are less distinct: the percentage of pixels with values greater than 200 (light pixels) and the percentage of pixels with values below the threshold (dark pixels). If the percentage of light pixels is greater than or equal to 0.46 or the percentage of dark pixels is less than 0.16, an additional morphological opening operation is applied. Highly zoomed images and those with less distinct edges within circular structures typically require this additional step.
 
-    <div style="text-align: center;">
-        <img src="images/step4.jpg" alt="Step 4" width="25%">
-    </div>
+<p align="center">
+<img src="images/step4.jpg" alt="Step 4" width="25%">
+</p>
 
 5. **Identification of elliptical structures**:
    
    - **Morphological Opening**: A morphological opening operation is performed followed by erosion. This process aims to separate the central parts of the structures, which are typically more "connected" than the rest of the image.
-    <div style="text-align: center; display: flex; justify-content: center;">
-    <div style="text-align: center; flex: 1; margin-right: 10px">
-        <img src="images/step5.jpg" alt="Opening" width="50%">
-        <p style="text-align: center;">Opening</p>
-    </div>
-    <div style="text-align: center; flex: 1; margin-left: 10px;">
-        <img src="images/step6.jpg" alt="Erosion" width="50%">
-        <p style="text-align: center;">Erosion</p>
-    </div>
-    </div>
+<p align="center">
+    | <img src="images/step5.jpg" alt="Opening" width="25%" margin=10px> |  <img src="images/step6.jpg" alt="Erosion" width="25%"> |
+</p>
+
+ 
 
 
    - **Removal of Small Blobs**: After the previous operations, less connected areas may separate, forming small blobs of pixels. Since only large blobs (inside elliptical structures) are of interest, blobs smaller than 60% of the average size are removed.
-
-    <div style="text-align: center;">
-         <img src="images/step7.jpg" alt="Step 7" width="25%">
-     </div>
+<p align="center">
+<img src="images/step7.jpg" alt="Step 7" width="25%">
+</p>
 
    - **Closing of Holes**: Any holes created within larger blobs due to the opening and erosion operations are closed to better highlight the shape of the blob.
 
-    <div style="text-align: center;">
-         <img src="images/step8.jpg" alt="Step 8" width="25%">
-    </div>
+<p align="center">
+<img src="images/step8.jpg" alt="Step 8" width="25%">
+</p>
 
    - **Circularity Check**: Blobs with circularity below a certain threshold (circularity < 0.2) are removed if they do not reflect a circular shape.
 
-    <div style="text-align: center;">
-         <img src="images/step9.jpg" alt="Step 9" width="25%">
-    </div>
+<p align="center">
+<img src="images/step9.jpg" alt="Step 9" width="25%">
+</p>
 
    - **Further Removal of Small Blobs**: Remaining small blobs that are smaller than 80% of the average size are removed.
 
-    <div style="text-align: center;">
-         <img src="images/step10.jpg" alt="Step 10" width="25%">
-    </div>
+<p align="center">
+<img src="images/step10.jpg" alt="Step 10" width="25%">
+</p>
 
    - **Ellipse Drawing**: For each remaining blob in the image, an ellipse is drawn to represent its shape.
 
-    <div style="text-align: center;">
-         <img src="images/step11.jpg" alt="Step 11" width="25%">
-    </div>
+<p align="center">
+<img src="images/step11.jpg" alt="Step 11" width="25%">
+</p>
 
    - **Morphological Dilation**: Finally, a morphological dilation is applied to restore the blob to its initial dimensions before erosion.
 
-    <div style="text-align: center;">
-         <img src="images/step13.jpg" alt="Step 13" width="25%">
-    </div>
+<p align="center">
+<img src="images/step13.jpg" alt="Step 13" width="25%">
+</p>
 
 6. **Mask Creation and Application**:
 
    - The binary mask created earlier is applied to the original image using a bitwise AND operation, resulting in the final segmented image.
 
-    <div style="text-align: center;">
-         <img src="images/step14.jpg" alt="Step 14" width="25%">
-    </div>
+<p align="center">
+<img src="images/step14.jpg" alt="Step 14" width="25%">
+</p>
 
 ## Examples
 
@@ -302,15 +315,15 @@ We visualize the intermediate steps of the algorithm applied to some example ima
 
 
 <figure>
-    <img src="images/ellipsees5.png" id="fig:ellipses_examples"
+<img src="images/ellipsees5.png" id="fig:ellipses_examples"
     alt="Images of benign tissues processed by the detection algorithm." />
-    <figcaption aria-hidden="true">Images of benign tissues processed by the detection algorithm.</figcaption>
+<figcaption aria-hidden="true">Images of benign tissues processed by the detection algorithm.</figcaption>
 </figure>
 
 <figure>
-    <img src="images/steps.jpg" id="fig:steps_examples"
+<img src="images/steps.jpg" id="fig:steps_examples"
     alt="Steps of the detection algorithm applied to images of benign tissues." />
-    <figcaption aria-hidden="true">Steps of the detection algorithm applied to images of benign tissues.</figcaption>
+<figcaption aria-hidden="true">Steps of the detection algorithm applied to images of benign tissues.</figcaption>
 </figure>
 
 
@@ -342,13 +355,13 @@ Classifier evaluation metrics on the test set.
 </div>
 
 <figure>
-<center>
+<p align="center">
 <img src="images/glcm_con_matrix.png" id="fig:glcm_cm"
-alt="Confusion matrix of the values predicted by the SVM classifier trained on GLCM features, computed over the entire image." width=75%/>
+alt="Confusion matrix of the values predicted by the SVM classifier trained on GLCM features, computed over the entire image." width=65%/>
 <figcaption aria-hidden="true">Confusion matrix of the values predicted
 by the SVM classifier trained on GLCM features, computed over the entire
 image.</figcaption>
-</center>
+</p>
 </figure>
 
 It is evident from the results that this approach performs **worse** compared to classifying images based on GLCM features calculated over the entire image. Notably, the classifier makes more errors on *benign* images compared to the previous approach. This behavior may stem from cases where the detection algorithm fails to identify any region of interest, resulting in a completely black image being passed to the classifier.
@@ -408,16 +421,12 @@ Table: Evaluation metrics of the SVM classifiers, trained on features extracted 
 </center>
 </div>
 
-<div style="text-align: center; display: flex; justify-content: center;">
-    <div style="text-align: center; flex: 1; margin-right: 10px;">
-        <img src="images/cnn_10_cm.png" alt="Confusion matrix of the values predicted by the SVM classifier trained on 10 features extracted using VGG16" style="width: 100%;">
-        <p style="text-align: center;">Confusion matrix of the values predicted by the SVM classifier trained on 10 features extracted using VGG16.</p>
-    </div>
-    <div style="text-align: center; flex: 1; margin-left: 10px;">
-        <img src="images/cnn_20_cm.png" alt="Confusion matrix of the values predicted by the SVM classifier trained on 20 features extracted using VGG16" style="width: 100%;">
-        <p style="text-align: center;">Confusion matrix of the values predicted by the SVM classifier trained on 20 features extracted using VGG16.</p>
-    </div>
-</div>
+<p float="left" align="center">
+        <img src="images/cnn_10_cm.png" alt="Confusion matrix of the values predicted by the SVM classifier trained on 10 features extracted using VGG16" style="width: 45%;">
+        <img src="images/cnn_20_cm.png" alt="Confusion matrix of the values predicted by the SVM classifier trained on 20 features extracted using VGG16" style="width: 45%;">
+        <p style="text-align: center;">Confusion matrix of the values predicted by the SVM classifier trained on 10 and 20 features extracted using VGG16.</p>
+    
+</p>
 
 In the table above, you can observe the results obtained. The classifier trained on 10 features manages to obtain an accuracy of 95.7% on the test set, thus obtaining decidedly **better** results compared to the classifier trained on GLCM features. The second classifier, trained on 20 features, also manages to obtain good results compared to the classifiers trained on GLCM, however, it tends to **overfitting** on the training set. This leads to a worse generalization of the classifier which, as can also be seen in the confusion matrix images, leads to a worse accuracy on the test set.
 
@@ -443,12 +452,12 @@ The basic model used is VGG16 which is used as a starting point. Its weights are
 
 - **Output**: Finally, a final output layer with a number of neurons equal to the number of output classes. This layer uses the softmax activation function, which is ideal for multi-class classification tasks. In this case, only two output neurons were used, since the classification is performed on two classes.
 <figure style="text-align:center;">
-<center>
+<p algin="enter">
     <img src="images/model_arch.png" id="fig:model_arch"
     alt="CNN model architecture." />
     
 *CNN model architecture.*
-</center>
+</p>
 </figure>
 
 ## Data augmentation
@@ -468,12 +477,12 @@ The model was trained with the following configurations:
 - **Epochs**: 15 epochs, using early stopping.
 
 <figure style="text-align:center;">
-<center>
+<p algin="center">
     <img src="images/cnn_loss2.png" id="fig:cnn_loss"
     alt="Loss trend during the training phase" width=90%/>
     
 *Loss trend during the training phase.*
-</center>
+</p>
 </figure>
 
 
@@ -500,12 +509,12 @@ As before, you can view the results obtained on the test set by using the traine
 </div>
 
 <figure style="text-align:center;">
-<center>
+<p align="center">
     <img src="images/cnn_con_matrix.png" id="fig:cnn_loss"
-    alt="Confusion matrix of the values predicted by the CNN" width=90%/>
+    alt="Confusion matrix of the values predicted by the CNN" width=65%/>
     
 *Confusion matrix of the values predicted by the CNN.*
-</center>
+</p>
 </figure>
 
 

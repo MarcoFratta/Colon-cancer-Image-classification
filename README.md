@@ -51,23 +51,19 @@ In Figure [1](#fig:color_hist_200), you can compare the color histograms of the 
 
 <figure>
     <img src="images/color_histograms_200.png" id="fig:color_hist_200" alt="Comparison between color histograms with 200 bins calculated on 500 images of the two classes." />
-    <figcaption aria-hidden="true">Comparison between color histograms with 200 bins calculated on 500 images of the two classes.</figcaption>
-</figure>
-
-<figure>
-    <img src="images/color_histograms_50.png" id="fig:color_hist_50" alt="Comparison between color histograms with 50 bins calculated on 500 images of the two classes." />
-    <figcaption aria-hidden="true">Comparison between color histograms with 50 bins calculated on 500 images of the two classes.</figcaption>
-</figure>
-
 To compare images based on color histograms, two metrics were used:
 
 - **Correlation**: Quantifies the similarity between two histograms. Values close to 1 indicate high similarity, while values close to 0 indicate little or no similarity. It is calculated as:
 
-  $$ d(H_1, H_2) = \frac{\sum_I (H_1(I) - \overline{H}_1)(H_2(I) - \overline{H}_2)}{\sqrt{\sum_I (H_1(I) - \overline{H}_1)^2 \sum_I (H_2(I) - \overline{H}_2)^2}} $$
+   ```math
+  d(H_1, H_2) = \frac{\sum_I (H_1(I) - \overline{H}_1)(H_2(I) - \overline{H}_2)}{\sqrt{\sum_I (H_1(I) - \overline{H}_1)^2 \sum_I (H_2(I) - \overline{H}_2)^2}}
+   ```
 
 - **Intersection (Similarity)**: Measures the common area of the histograms, quantifying the degree of overlap between them. It is calculated as:
 
-  $$ d(H_1, H_2) = \sum_I \min(H_1(I), H_2(I)) $$
+   ```math
+  d(H_1, H_2) = \sum_I \min(H_1(I), H_2(I))
+   ```
 
 In Table [1](#tab:color_histogram_metrics), you can see the correlation and intersection values calculated between the histograms of the two classes using 200 bins on 500 images per class.
 
@@ -93,22 +89,28 @@ Three color moments were used, calculated globally across the entire image:
 - **Mean**: Average color in the image.
   Calculated as:
   
-   $$ \frac{1}{N} \sum_{i=1}^{N} x_i $$
+   ```math
+  \frac{1}{N} \sum_{i=1}^{N} x_i
+   ```
 
 - **Standard deviation**: Square root of the variance of the color distribution.
   Calculated as: 
   
-  $$ \sqrt{\frac{1}{N} \sum_{i=1}^{N} (x_i - \text{mean})^2} $$
+  ```math
+  \sqrt{\frac{1}{N} \sum_{i=1}^{N} (x_i - \text{mean})^2}
+  ```
 
 - **Skewness**: Measures the skewness of the color distribution.
   Calculated as:
   
-   $$ \sqrt[3]{\frac{1}{N} \sum_{i=1}^{N} (x_i - \text{mean})^3} $$
+   ```math
+  \sqrt[3]{\frac{1}{N} \sum_{i=1}^{N} (x_i - \text{mean})^3}
+   ```
 
 Mean, standard deviation, and skewness were calculated for all images and then averaged across images within each class. The color moments of each class were compared using the Euclidean distance. The results are shown in Table [2](#tab:color_moments_metrics).
 
 <div id="tab:color_moments_metrics">
-<center>
+<p align="center">
 
 | Channel | Mean   | Std    | Skewness |
 |---------|--------|--------|----------|
@@ -117,7 +119,7 @@ Mean, standard deviation, and skewness were calculated for all images and then a
 | Green   | 7.6266 | 5.4526 | 15.0697  |
 
 Comparison between color moments of the two classes.
-</center>
+</p>
 </div>
 
 It can be observed that the distances between the three different moments analyzed are relatively small. These small distance values indicate that the color distributions are **similar** between images of different classes. Larger values would have indicated a higher dissimilarity.
@@ -162,34 +164,44 @@ This matrix captures the spatial distribution of pixel intensities, reflecting t
 - **Energy**: Represents the sum of the squares of the GLCM values, indicating the presence of repetitive patterns in the image.
   Calculated as: 
   
-  $$ \sqrt{\sum_{i,j} M[i,j]^2} $$
+  ```math
+  \sqrt{\sum_{i,j} M[i,j]^2}
+  ```
 
 - **Entropy**: Measures the complexity of the texture; higher values indicate a more disordered texture.
   Calculated as:
   
-   $$ -\sum_{i,j} M[i,j] \log(M[i,j]) $$
+   ```math
+  -\sum_{i,j} M[i,j] \log(M[i,j])
+   ```
 
 - **Contrast**: Measures the difference in intensity between a pixel and its neighbors, reflecting local variation in intensity.
   Calculated as:
   
-   $$ \sum_{i,j} (i - j)^2 \cdot M[i,j] $$
+   ```math
+  \sum_{i,j} (i - j)^2 \cdot M[i,j]
+   ```
 
 - **Homogeneity**: Evaluates the uniformity of the texture; higher values indicate a more uniform texture.
   Calculated as:
   
-   $$ \sum_{i,j} \frac{M[i,j]}{1 + |i - j|} $$
+   ```math
+  \sum_{i,j} \frac{M[i,j]}{1 + |i - j|}
+   ```
 
 - **Dissimilarity**: Measures the absolute difference in intensity between pixels; higher values indicate greater intensity variation.
   Calculated as:
   
-   $$ \sum_{i,j} |i - j| \cdot M[i,j] $$
+   ```math
+  \sum_{i,j} |i - j| \cdot M[i,j]
+    ```
 
 ### Classification
 
 The five features described above were extracted for each image in the dataset, resulting in a new feature dataset of size 10,000 x 5. This dataset was split into training and test sets, and a Support Vector Machine (SVM) classifier was trained on the training set. The performance was evaluated on a test set of 2000 images. Table [3](#tab:glcm_full_svm_metrics) presents the evaluation metrics of the SVM classifier trained on GLCM features.
 
 <div id="tab:glcm_full_svm_metrics" style="text-align: center;">
-<center>
+<p align="center">
 
 | Metric             | Value   |
 |--------------------|--------:|
@@ -203,7 +215,7 @@ The five features described above were extracted for each image in the dataset, 
 | True Positives     | 821     |
 
 Evaluation metrics of the SVM classifier trained on GLCM features, calculated on the test set.
-</center>
+</p>
 
 </div>
 
@@ -336,7 +348,7 @@ In contrast to the previous algorithm, an attempt was made to highlight the **co
 An attempt at classification was conducted using the images where regions of interest were highlighted by the described algorithm. For each image, after applying the binary mask that highlights these regions, the previously defined GLCM features were extracted. Similar to the earlier phase of GLCM feature extraction, a dataset containing these 5 features per image was created. This dataset was subsequently used to train an SVM classifier. The evaluation metrics on a test set of 2000 images are shown in Table [4](#tab:glcm_svm_metrics).
 
 <div id="tab:glcm_svm_metrics">
-<center>
+<p align="center">
 
 | Metric             | Value   |
 |--------------------|---------|
@@ -350,7 +362,7 @@ An attempt at classification was conducted using the images where regions of int
 | True Positives     | 825     |
 
 Classifier evaluation metrics on the test set.
-</center>
+</p>
 
 </div>
 
@@ -404,7 +416,7 @@ This feature tensor was then reduced in dimensionality using the **Principal Com
 
 After extracting features for each image in the dataset via the VGG16 network, dimensionality reduction was performed via *pca*, reducing the dataset to 10 and 20 dimensions. Therefore, two feature datasets of size $10,000 \times 10$ and $10,000 \times 20$ were generated. Each dataset was subsequently divided into train and test sets and then used to train a Support Vector Machine (SVM) classifier. As before, performance was measured on the test set of 2000 images.
 <div>
-<center>
+<p align="center">
 
 | Metric             | 10 features | 20 features |
 |--------------------|-------------|-------------|
@@ -418,7 +430,7 @@ After extracting features for each image in the dataset via the VGG16 network, d
 | True Positives     | 947         | 870         |
 
 Table: Evaluation metrics of the SVM classifiers, trained on features extracted using VGG16, calculated on the test set.
-</center>
+</p>
 </div>
 
 <p float="left" align="center">
@@ -492,7 +504,7 @@ In figure [Figure above](#fig:cnn_loss) it is possible to observe the trend of t
 
 As before, you can view the results obtained on the test set by using the trained model. We can see how the model is decidedly more accurate than those used previously, managing to correctly classify 98.6% of the images and significantly reducing the number of false positives and negatives.
 <div>
-<center>
+<p align="center">
 
 | Metric            | Value  |
 |-------------------|-------:|
@@ -505,7 +517,7 @@ As before, you can view the results obtained on the test set by using the traine
 | False Negatives   | 8      |
 | True Positives    | 973    |
 
-</center>
+</p>
 </div>
 
 <figure style="text-align:center;">
@@ -523,7 +535,7 @@ As before, you can view the results obtained on the test set by using the traine
 It is interesting to compare the different approaches used in order to analyze what the advantages and disadvantages of their use are. It is clear that the last approach used allows for significantly better results than the other approaches used. The execution time is reported in ms and calculated by taking the average of the classification times of 100 images. It can be seen that the use of the detection algorithm involves longer execution times compared to other approaches. Again, the last approach is the one that allows you to classify a new image more quickly. It is important to point out, however, that the training phase of the CNN in the last approach was rather long.
 
 <div>
-<center>
+<p align="center">
 
 | Metric            | GLCM   | GLCM + Detection | CNN-SVM 10 feature | CNN-SVM 20 feature | CNN    |
 |-------------------|--------|------------------|---------------------|---------------------|--------|
@@ -537,7 +549,7 @@ It is interesting to compare the different approaches used in order to analyze w
 | True Positives    | 821    | 825              | 947                 | 870                 | 973    |
 | Prediction time   | 135 ms | 799 ms           | 131 ms              | 276 ms              | 108 ms |
 
-</center>
+</p>
 </div>
 
 ## Conclusions
